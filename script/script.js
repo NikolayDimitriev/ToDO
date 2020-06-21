@@ -1,59 +1,112 @@
 'use strict'
 
-const todoControl = document.querySelector('.todo-control'),
-    headerInput = document.querySelector('.header-input'),
-    todoList = document.querySelector('.todo-list'),
-    todoCompleted = document.querySelector('.todo-completed');
+const registerUser = document.querySelector('#registerUser'),
+    log = document.querySelector('#login'),
+    username = document.querySelector('#username'),
+    login = document.querySelector('#login'),
+    list = document.querySelector('#list');
 
-const todoData = JSON.parse(localStorage.getItem('todoData'));
 
+const listData = JSON.parse(localStorage.getItem('listData'));
 
 const render = function () {
-    todoCompleted.textContent = '';
-    todoList.textContent = '';
-
-    todoData.forEach(function (item) {
+    list.textContent = '';
+    listData.forEach(function (item) {
         const li = document.createElement('li');
-        li.classList.add('todo-item');
-
-        li.innerHTML = '<span class="text-todo">' + item.value + '</span>' +
-            '<div class="todo-buttons">' +
-            '<button class="todo-remove"></button>' +
-            '<button class="todo-complete"></button>' +
+        li.innerHTML = '<li class="list-item">Имя: ' + item.firstName + ', фамилия: ' + item.lastName + ', зарегистрирован: ' + item.regDate + '</li>' +
+            '<div class="list-button">' +
+            '<button class="list-remove"></button>' +
             '</div>';
-        if (item.completed) {
-            todoCompleted.append(li);
-        } else {
-            todoList.append(li);
-        }
+        list.append(li);
 
-        const btnTodoComplete = li.querySelector('.todo-complete');
-        btnTodoComplete.addEventListener('click', function () {
-            item.completed = !item.completed;
-            render();
-        });
-
-        const btnTodoRemove = li.querySelector('.todo-remove');
-        btnTodoRemove.addEventListener('click', function () {
-            todoData.splice(todoData.indexOf(item), 1);
+        const btnListRemove = li.querySelector('.list-remove');
+        btnListRemove.addEventListener('click', function () {
+            listData.splice(listData.indexOf(item), 1);
             render();
         });
     });
-    localStorage.setItem('todoData', JSON.stringify(todoData));
-};
+    localStorage.setItem('listData', JSON.stringify(listData));
+}
 
-todoControl.addEventListener('submit', function (event) {
-    event.preventDefault();
+registerUser.addEventListener('click', function (item) {
+    let name = prompt("Введите через пробел Имя и Фамилию пользователя", "Николай Димитриев");
+    if (name.split(' ').length > 2) {
+        alert('Ошибка!');
+    } else {
+        let login = prompt("Введите Логин", 's1ngle56');
+        let password = prompt("Введите Пароль", 123456);
 
-    if (headerInput.value !== '') {
-        const newTodo = {
-            value: headerInput.value,
-            completed: false
+        let date = new Date();
+        let month = date.getMonth();
+        let printMonth;
+
+        function getZero(number) {
+            if (number < 10) {
+                return ('0' + number)
+            }
+            return number;
+        }
+        switch (month) {
+            case 0:
+                printMonth = 'января';
+                break;
+            case 1:
+                printMonth = 'февраля';
+                break;
+            case 2:
+                printMonth = 'марта';
+                break;
+            case 3:
+                printMonth = 'апреля';
+                break;
+            case 4:
+                printMonth = 'мая';
+                break;
+            case 5:
+                printMonth = 'июня';
+                break;
+            case 6:
+                printMonth = 'июля';
+                break;
+            case 7:
+                printMonth = 'августа';
+                break;
+            case 8:
+                printMonth = 'сентября';
+                break;
+            case 9:
+                printMonth = 'октября';
+                break;
+            case 10:
+                printMonth = 'ноября';
+                break;
+            case 11:
+                printMonth = 'декабря';
+                break;
+        }
+        let time = date.getDate() + ' ' + printMonth + ' ' + date.getFullYear() + ' г., ' + getZero(date.getHours()) + ':' + getZero(date.getMinutes()) + ':' + getZero(date.getSeconds());
+
+        const newAccount = {
+            firstName: name.split(' ')[0],
+            lastName: name.split(' ')[1],
+            login: login,
+            password: password,
+            regDate: time
         };
-        todoData.push(newTodo);
-        headerInput.value = '';
+        listData.push(newAccount);
     }
     render();
+});
+
+log.addEventListener('click', function () {
+    let login = prompt("Введите Логин", 's1ngle56');
+    let password = prompt("Введите Пароль", '123456');
+
+    listData.forEach(function (item) {
+        if (login === item.login && password === item.password) {
+            username.textContent = item.firstName;
+        }
+    });
 });
 
 render();
