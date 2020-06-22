@@ -39,56 +39,14 @@ registerUser.addEventListener('click', function (item) {
     } else {
         let login = prompt("Введите Логин", 's1ngle56');
         let password = prompt("Введите Пароль", 123456);
-
-        let date = new Date();
-        let month = date.getMonth();
-        let printMonth;
-
-        function getZero(number) {
-            if (number < 10) {
-                return ('0' + number)
-            }
-            return number;
-        }
-        switch (month) {
-            case 0:
-                printMonth = 'января';
-                break;
-            case 1:
-                printMonth = 'февраля';
-                break;
-            case 2:
-                printMonth = 'марта';
-                break;
-            case 3:
-                printMonth = 'апреля';
-                break;
-            case 4:
-                printMonth = 'мая';
-                break;
-            case 5:
-                printMonth = 'июня';
-                break;
-            case 6:
-                printMonth = 'июля';
-                break;
-            case 7:
-                printMonth = 'августа';
-                break;
-            case 8:
-                printMonth = 'сентября';
-                break;
-            case 9:
-                printMonth = 'октября';
-                break;
-            case 10:
-                printMonth = 'ноября';
-                break;
-            case 11:
-                printMonth = 'декабря';
-                break;
-        }
-        let time = date.getDate() + ' ' + printMonth + ' ' + date.getFullYear() + ' г., ' + getZero(date.getHours()) + ':' + getZero(date.getMinutes()) + ':' + getZero(date.getSeconds());
+        let time = new Date().toLocaleString('ru', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric',
+            second: 'numeric'
+        });
 
         const newAccount = {
             firstName: name.split(' ')[0],
@@ -105,12 +63,13 @@ registerUser.addEventListener('click', function (item) {
 log.addEventListener('click', function () {
     let login = prompt("Введите Логин", 's1ngle56');
     let password = prompt("Введите Пароль", '123456');
-
-    listData.forEach(function (item) {
-        if (login === item.login && password === item.password) {
-            username.textContent = item.firstName;
-        }
+    let obj = {};
+    let bool = listData.some((item) => {
+        obj = item;
+        return (login === item.login && password === item.password);
     });
+
+    (bool) ? username.textContent = obj.firstName: alert('Пользователь не найден');
 });
 
 render();
