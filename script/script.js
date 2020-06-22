@@ -6,8 +6,12 @@ const registerUser = document.querySelector('#registerUser'),
     login = document.querySelector('#login'),
     list = document.querySelector('#list');
 
-
-const listData = JSON.parse(localStorage.getItem('listData'));
+let listData;
+if (JSON.parse(localStorage.getItem('listData')) === null) {
+    listData = [];
+} else {
+    listData = JSON.parse(localStorage.getItem('listData'));
+}
 
 const render = function () {
     list.textContent = '';
