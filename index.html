@@ -10,19 +10,49 @@
 
 	<link rel="stylesheet" type="text/css" href="css/normalize.css">
 	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<script src="js/script.js" defer></script>
 </head>
 
 <body>
-	<h1>Привет <span id="username">Аноним</span></h1>
-	<button id="registerUser">Зарегистрировать пользователя</button>
-	<button id="login">Авторизоваться</button>
-	
-	<ul id="list">
 
-	</ul>
+	<header class="header">
+		<form class="todo-control">
+			<label><input class="header-input" type="text" placeholder="Какие планы?"></label>
+			<button class="header-button" id="add"></button>
+		</form>
+	</header>
 
+	<div class="todo-container">
 
-	<script src="script/script.js"></script>
+		<ul class="todo todo-list" id="todo">
+			<li class="todo-item">
+				<span class="text-todo">Купить МиниКупер</span>
+				<div class="todo-buttons">
+					<button class="todo-remove"></button>
+					<button class="todo-complete"></button>
+				</div>
+			</li>
+			<li class="todo-item">
+				<span class="text-todo">Выполнить усложненное задание</span>
+				<div class="todo-buttons">
+					<button class="todo-edit"></button>
+					<button class="todo-remove"></button>
+					<button class="todo-complete"></button>
+				</div>
+			</li>
+		</ul>
+
+		<ul class="todo todo-completed" id="completed">
+			<li class="todo-item">
+				<span class="text-todo">Продать Мазду</span>
+				<div class="todo-buttons">
+					<button class="todo-remove"></button>
+					<button class="todo-complete"></button>
+				</div>
+			</li>
+		</ul>
+	</div>
+
 </body>
 
 </html>
